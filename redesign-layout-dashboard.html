@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="stylesheet" href="Asset_icon/boxicons/css/boxicons.css" />
+		<title>redesign lay-out dashboard</title>
+	</head>
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+		}
+
+		body {
+			font-family: system-ui;
+		}
+
+		:root {
+			/* background-color  */
+
+			--Bg-color-main: #202023;
+
+			--Bg-color-second: #303443;
+			--Bg-color-third: #181a21;
+			--text-color--main: floralwhite;
+
+			/* font option  */
+
+			--font-main: system-ui;
+			--font-second: verdana;
+			--font-third: Georgia;
+			--font-size-text: 18px;
+			--font-size-subtext: 14px;
+			--font-size-custom: 20px;
+			/* margin padding option  */
+
+			--margin-x: 0 1em;
+			--margin-y: 1em 0;
+			/* animation option   */
+			--animate-main: 0.5s ease alternate;
+			--animate-main: 1s ease alternate;
+		}
+
+		.container-dashboard {
+			margin: 30px;
+			display: flex;
+			justify-content: center;
+		}
+
+		.dashboard {
+			width: 100%;
+			max-width: 1200px;
+			height: 88vh;
+			background-color: #202023;
+			display: flex;
+			position: fixed;
+		}
+
+		/* divider */
+
+		.left-content {
+			background: linear-gradient(45deg, royalblue, transparent);
+			flex: 1;
+			height: inherit;
+			position: fixed;
+			border-right: 2px solid white;
+		}
+
+		.wrapper-left {
+			display: flex;
+			flex-wrap: wrap;
+			flex-direction: column;
+			align-content: space-around;
+			height: inherit;
+			padding: 10px;
+			padding: 14px;
+			justify-content: space-between;
+			align-items: center;
+		}
+
+		.upper-ls {
+			width: 100%;
+		}
+
+		.indicator {
+			display: flex;
+			justify-content: space-between;
+			background: #303443;
+		}
+
+		.circle1 {
+			border-radius: 50%;
+			width: 10px;
+			height: 10px;
+			background-color: #fe4d46;
+			box-shadow: 14px 0 0 0 #fbc023, 28px 0 0 0 #7dd21f;
+		}
+
+		.circle2 {
+			border-radius: 50%;
+			margin-right: 10px;
+			width: 4px;
+			height: 4px;
+			background-color: #d5d7e3;
+			box-shadow: -6px 0 0 0 #d5d7e3, 6px 0 0 0 #d5d7e3;
+		}
+
+		.logo img {
+			width: 80px;
+		}
+
+		nav.setting {
+			display: flex;
+			flex-direction: column;
+			line-height: 2.5;
+			font-size: 18px;
+		}
+
+		nav.main-menu {
+			display: flex;
+			flex-direction: column;
+			height: inherit;
+			line-height: １.5;
+			font-size: 0.8em;
+		}
+
+		ul {
+			line-height: 2;
+			list-style-type: none;
+		}
+
+		li:hover {
+			border-radius: 5px;
+			outline: 3px solid #d5d7e3;
+			filter: invert(1);
+		}
+
+		a {
+			text-decoration: none;
+			color: #d5d7e3;
+		}
+
+		li a .bx::before {
+			padding-right: 15px;
+		}
+
+		/* <!-- ======================================{here}============================================================== --> */
+		.mid-content {
+			flex: 3;
+			background: linear-gradient(45deg, black, transparent);
+			padding-left: 6em;
+		}
+
+		.wrapper-mid {
+			display: flex;
+			flex-wrap: wrap;
+			align-content: space-between;
+			flex-direction: column;
+		}
+
+		.upper-ms {
+			width: 100%;
+			height: 70px;
+			background: #303443;
+			align-items: center;
+			justify-content: space-between;
+			padding: 0 30px;
+		}
+
+		.middle-ms {
+			font-size: 20px;
+			justify-content: flex-start;
+			align-items: center;
+			gap: 1em;
+			text-align: center;
+			text-transform: capitalize;
+			padding: 1em 2em;
+		}
+
+		.upper-ms,
+		.middle-ms,
+		.bottom-ms {
+			display: flex;
+			color: #d5d7e3;
+		}
+
+		.bottom-ms {
+			border: 2px solid white;
+			padding: 0.5em 1em;
+			margin: 1em;
+			flex-direction: column;
+			font-size: 22px;
+		}
+
+		.tab-head {
+			border: 1px solid white;
+			width: 100%;
+			height: 50px;
+			padding: 0;
+			margin: 0;
+			display: flex;
+			align-items: center;
+			flex-direction: row;
+			justify-content: space-around;
+		}
+
+		/* <!-- ======================================{here}============================================================== --> */
+		.right-content {
+			flex: 1;
+		}
+	</style>
+
+	<body>
+		<div class="container-dashboard">
+			<div class="dashboard">
+				<div class="left-content">
+					<div class="wrapper-left">
+						<div class="upper-ls">
+							<div class="indicator">
+								<div class="circle1"></div>
+								<div class="circle2"></div>
+							</div>
+						</div>
+						<div class="profile-ls">
+							<div class="logo"><img src="/Asset_image/logo.png" alt="logo" /></div>
+							<div class="avatar">
+								<i class="bx bx-user-circle bx-lg" style="color: #a7a8ae"></i><br />
+								<span>
+									<i class="bx bxl-visual-studio" style="color: #4b6bc5"></i>
+									<i class="bx bxl-javascript" style="color: #e8ff00"></i>
+									<i class="bx bxl-bootstrap" style="color: #770c63"></i>
+								</span>
+								<!--  -->
+							</div>
+						</div>
+						<div class="middle-ls">
+							<nav class="main-menu">
+								<ul>
+									<li>
+										<a href="/"><i class="bx bxs-dashboard"> </i>Home</a>
+									</li>
+									<li>
+										<a href="/"><i class="bx bx-archive"></i>My Asset</a>
+									</li>
+									<li>
+										<a href="/"><i class="bx bx-calendar"></i>Schedule</a>
+									</li>
+									<li>
+										<a href="/"><i class="bx bxs-lock bx-tada-hover"></i>Private</a>
+									</li>
+									<li>
+										<a href="/"><i class="bx bxs-trash"></i>Trash</a>
+									</li>
+								</ul>
+								<hr />
+							</nav>
+						</div>
+						<div class="bottom-ls">
+							<nav class="setting">
+								<a href=""><i class="bx bx-log-out"></i> Log Out</a>
+								<a href=""><i class="bx bx-cog bx-spin"></i> Setting</a>
+							</nav>
+						</div>
+					</div>
+				</div>
+				<!-- ======================================{here}============================================================== -->
+				<div class="mid-content">
+					<!-- parent -->
+					<div class="wrapper-mid">
+						<div class="upper-ms">
+							<i class="bx bx-slider-alt"></i>
+							<input
+								id="search"
+								type="search"
+								name=""
+								class="bx bx-search"
+								placeholder="..."
+							/>
+							<label for="search">
+								<i class="bx bx-search"></i>
+							</label>
+						</div>
+						<div class="middle-ms">
+							<span><i class="bx bx-task"></i></span>
+							<h3>tasks todo</h3>
+						</div>
+						<div class="bottom-ms">
+							<div class="tab-head">
+								<a href="#today" data-tab="today" class="b-nav-tab active">Today</a>
+								<a href="#week" data-tab="week" class="b-nav-tab"> Week </a>
+								<a href="#Month" data-tab="month" class="b-nav-tab"> Month </a>
+								<a href="#calendar" data-tab="calendar" class="b-nav-tab"> Calendar </a>
+							</div>
+							<!--  -->
+							<div class="tab-body">
+								<div class="wrapper-overflow-body">
+									<div id="today" class="b-tab active">
+										<div class="wrapper-task">
+											<mona-todo></mona-todo>
+										</div>
+									</div>
+
+									<!--  -->
+									<div id="week" class="b-tab">
+										<h1>Week</h1>
+										<p>
+											Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere,
+											omnis.
+										</p>
+										<div class="wrapper-task"></div>
+									</div>
+
+									<!--  -->
+									<div id="month" class="b-tab">
+										<h1>Month</h1>
+										<p>
+											Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere,
+											omnis.
+										</p>
+									</div>
+
+									<!--  -->
+									<div id="calendar" class="b-tab">
+										<h1>Calendar</h1>
+										<p>
+											Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere,
+											omnis.
+										</p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- ======================================{here}============================================================== -->
+				<div class="right-content">
+					<div class="wrapper-right">
+						<div class="upper-rs"></div>
+						<div class="middle-rs"></div>
+						<div class="bottom-rs"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

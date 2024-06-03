@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      /* Basic Style */
+
+      .container {
+        display: block;
+        width: 400px;
+        /* margin: 100px auto 0; */
+      }
+      ul {
+        margin: 0;
+        padding: 0;
+      }
+      li * {
+        float: left;
+      }
+      li,
+      h3 {
+        clear: both;
+        list-style: none;
+      }
+      input,
+      button {
+        outline: none;
+      }
+      button {
+        background: none;
+        border: 0px;
+        color: #888;
+        font-size: 15px;
+        width: 60px;
+        margin: 10px 0 0;
+        font-family: Lato, sans-serif;
+        cursor: pointer;
+      }
+      button:hover {
+        color: #333;
+      }
+      /* Heading */
+      h3,
+      label[for="new-task"] {
+        color: #333;
+        font-weight: 700;
+        font-size: 15px;
+        border-bottom: 2px solid #333;
+        padding: 30px 0 10px;
+        margin: 0;
+        text-transform: uppercase;
+      }
+      input[type="text"] {
+        margin: 0;
+        font-size: 18px;
+        line-height: 18px;
+        height: 18px;
+        padding: 10px;
+        border: 1px solid #ddd;
+        background: #fff;
+        border-radius: 6px;
+        font-family: Lato, sans-serif;
+        color: #888;
+      }
+      input[type="text"]:focus {
+        color: #333;
+      }
+
+      /* New Task */
+      label[for="new-task"] {
+        display: block;
+        margin: 0 0 20px;
+      }
+      input#new-task {
+        float: left;
+        width: 318px;
+      }
+      p > button:hover {
+        color: #0fc57c;
+      }
+
+      /* Task list */
+      li {
+        overflow: hidden;
+        padding: 20px 0;
+        border-bottom: 1px solid #eee;
+      }
+      li > input[type="checkbox"] {
+        margin: 0 10px;
+        position: relative;
+        top: 15px;
+      }
+      li > label {
+        font-size: 18px;
+        line-height: 40px;
+        width: 237px;
+        padding: 0 0 0 11px;
+      }
+      li > input[type="text"] {
+        width: 226px;
+      }
+      li > .delete:hover {
+        color: #cf2323;
+      }
+
+      /* Completed */
+      #completed-tasks label {
+        text-decoration: line-through;
+        color: #888;
+      }
+
+      /* Edit Task */
+      ul li input[type="text"] {
+        display: none;
+      }
+
+      ul li.editMode input[type="text"] {
+        display: block;
+      }
+
+      ul li.editMode label {
+        display: none;
+      }
+    </style>
+    <title>Document</title>
+  </head>
+  <body>
+    <!-- <script type="module" src="/"></script> -->
+    <div class="container">
+      <p>
+        <label for="new-task">Add Task</label>
+        <input placeholder="type here" value="" id="new-task" type="text" />
+        <button>Add</button>
+      </p>
+
+      <h3>to do</h3>
+      <ul id="incomplete-tasks">
+        <li>
+          <input type="checkbox" />
+          <label>Mabuk Berat</label>
+          <input type="text" />
+          <button class="edit">Edit</button>
+          <button class="delete">Delete</button>
+        </li>
+        <li>
+          <input type="checkbox" />
+          <label>Go Shopping</label>
+          <input type="text" value="Go Shopping" />
+          <button class="edit">Edit</button>
+          <button class="delete">Delete</button>
+        </li>
+      </ul>
+
+      <h3>Completed</h3>
+      <ul id="completed-tasks">
+        <li>
+          <input type="checkbox" checked />
+          <label>See the Doctor</label>
+          <input type="text" />
+          <button class="edit">Edit</button>
+          <button class="delete">Delete</button>
+        </li>
+      </ul>
+    </div>
+    <script>
+      let taskInput = document.getElementById("new-task");
+      let addButton = document.getElementsByTagName("button")[0];
+      let incompleteTasksHolder = document.getElementById("incomplete-tasks");
+      let completedTasksHolder = document.getElementById("completed-tasks");
+
+      let createNewTaskElement = function (taskString) {
+        //create list item
+        let listItem = document.createElement("li");
+        // checkbox input
+        let checkbox = document.createElement("input");
+        // label
+        let label = document.createElement("label");
+        // text input
+        let editInput = document.createElement("input");
+        // edit button
+        let editButton = document.createElement("button");
+        // delete button
+        let deleteButton = document.createElement("button");
+
+        // each element modified and appended
+
+        checkbox.type = "checkbox";
+        editInput.type = "text";
+
+        editButton.innerText = "Edit";
+        editButton.className = "edit";
+        deleteButton.innerText = "Delete";
+        deleteButton.className = "delete";
+
+        label.innerText = taskString;
+
+        listItem.appendChild(checkbox);
+        listItem.appendChild(label);
+        listItem.appendChild(editInput);
+        listItem.appendChild(editButton);
+        listItem.appendChild(deleteButton);
+
+        return listItem;
+      };
+
+      let addTask = function () {
+        console.log("add new..");
+        // Create new task list item with text from new task
+        let listItem = createNewTaskElement(taskInput.value);
+
+        //append listItem to incompleteTaskHolder
+        if (taskInput.value !== "") {
+          incompleteTasksHolder.appendChild(listItem);
+          bindTaskEvents(listItem, taskCompleted);
+          taskInput.value = "";
+        }
+      };
+
+      let editTask = function () {
+        console.log("edit task..");
+
+        let listItem = this.parentNode;
+
+        let editInput = listItem.querySelector("input[type=text]");
+        let editButton = listItem.querySelector("button");
+        let label = listItem.querySelector("label");
+
+        let containsClass = listItem.classList.contains("editMode");
+
+        // if parent has editMode class
+        if (containsClass) {
+          //switch from edit
+          label.innerText = editInput.value;
+          // label text become the input's value
+          editButton.innerText = "Edit";
+        } else {
+          editInput.value = label.innerText;
+          // switch to editMode
+          // input value becomes label's text
+          editButton.innerText = "Save";
+        }
+        // toggle edit mode on parent
+        listItem.classList.toggle("editMode");
+      };
+
+      let taskCompleted = function () {
+        console.log("task completed");
+        let listItem = this.parentNode;
+        // append list item to complete tasks
+        completedTasksHolder.appendChild(listItem);
+        bindTaskEvents(listItem, taskIncomplete);
+      };
+
+      let taskIncomplete = function () {
+        console.log("task incomplete");
+        let listItem = this.parentNode;
+        // append list item to complete tasks
+        incompleteTasksHolder.appendChild(listItem);
+        bindTaskEvents(listItem, taskCompleted);
+      };
+
+      let deleteTask = function () {
+        console.log("delete task");
+        // Delete tasks
+        let listItem = this.parentNode;
+        let ul = listItem.parentNode;
+        ul.removeChild(listItem);
+      };
+
+      let bindTaskEvents = function (taskListItem, checkboxEventHandler) {
+        console.log("bind list item");
+
+        //select children
+        let checkbox = taskListItem.querySelector("input[type=checkbox]");
+        let editButton = taskListItem.querySelector("button.edit");
+        let deleteButton = taskListItem.querySelector("button.delete");
+
+        //bind edittask to editbutton
+        editButton.onclick = editTask;
+
+        //bind deletetask to delete button
+        deleteButton.onclick = deleteTask;
+
+        //bind taskcompleted to checkbox
+        checkbox.onchange = checkboxEventHandler;
+      };
+
+      let ajaxRequest = function () {
+        console.log("ajax request");
+      };
+      // Adds task if enter is pressed without having to click "add"
+      let enterPressed = function (e) {
+        if (e.keyCode === 13) {
+          addTask();
+        }
+      };
+
+      // Event Listerners
+      taskInput.addEventListener("keydown", enterPressed);
+      addButton.addEventListener("click", addTask);
+      addButton.addEventListener("click", ajaxRequest);
+
+      // cycle over incomplete taskholder ul list item
+      for (let i = 0; i < incompleteTasksHolder.children.length; i++) {
+        bindTaskEvents(incompleteTasksHolder.children[i], taskCompleted);
+      }
+
+      // cycle over completetaskholder ul list items
+      for (let i = 0; i < completedTasksHolder.children.length; i++) {
+        bindTaskEvents(completedTasksHolder.children[i], taskIncomplete);
+      }
+    </script>
+  </body>
+</html>
